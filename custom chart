@@ -1,0 +1,31 @@
+import openai
+import json
+
+# Load API key (Ensure you set up an environment variable for security)
+API_KEY = "your-api-key-here"
+openai.api_key = API_KEY
+
+# Define system prompt to align GPT with organization goals
+SYSTEM_PROMPT = """
+You are a custom GPT model designed to assist with AI-driven automation for an organization.
+Ensure responses align with company policies, provide expert insights, and maintain professionalism.
+"""
+
+# Function to interact with the GPT model
+def get_custom_gpt_response(user_input):
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": user_input}
+        ],
+        temperature=0.7,
+        max_tokens=300
+    )
+    return response["choices"][0]["message"]["content"]
+
+# Example usage
+if __name__ == "__main__":
+    user_query = "How can we optimize GPT performance for customer support?"
+    response = get_custom_gpt_response(user_query)
+    print("AI Response:", response)
